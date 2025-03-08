@@ -1,0 +1,78 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            flex-direction: column;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            background: #ff8c00;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff6000;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Greeting App</h1>
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button onclick="getGreeting()">Get Greeting</button>
+        <p class="message" id="message"></p>
+    </div>
+    <script>
+        async function getGreeting() {
+            const name = document.getElementById('nameInput').value;
+            if (!name) {
+                document.getElementById('message').innerText = "Please enter a name.";
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/api/greet?name=${name}`);
+                const data = await response.json();
+                document.getElementById('message').innerText = data.message || data.error;
+            } catch (error) {
+                document.getElementById('message').innerText = "Error fetching greeting.";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
